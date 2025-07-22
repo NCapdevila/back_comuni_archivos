@@ -1,0 +1,14 @@
+{
+  "name": "foto_comuni",
+  "version": "1.0.0",
+  "description": "API para subir archivos creando una carpeta con el dominio",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./fotos_comuni/index.js"
+  }  
+  ,"dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}
