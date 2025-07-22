@@ -78,6 +78,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.listen(PORT, ()=>{
+app.listen(PORT, '0.0.0.0', ()=>{
     console.log (`Servidor corriendo en el puerto ${PORT}`)
 })
