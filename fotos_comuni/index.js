@@ -77,6 +77,24 @@ app.get('/fotos/:carpeta', (req,res) => {
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.delete('/carpetas/:carpeta', (req, res) => {
+  const carpeta = req.params.carpeta;
+  const dir = path.join(__dirname, 'uploads', carpeta);
+
+  if (!fs.existsSync(dir)) {
+    return res.status(404).json({ error: 'Carpeta no encontrada' });
+  }
+
+  // Borrar carpeta y todo su contenido
+  fs.rm(dir, { recursive: true, force: true }, (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al borrar la carpeta' });
+    }
+    res.json({ mensaje: `Carpeta ${carpeta} eliminada correctamente` });
+  });
+});
+
+
 
 app.listen(PORT, '0.0.0.0', ()=>{
     console.log (`Servidor corriendo en el puerto ${PORT}`)
