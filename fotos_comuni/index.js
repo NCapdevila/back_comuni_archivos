@@ -70,8 +70,8 @@ app.get('/fotos/:carpeta', (req,res) => {
     fs.readdir(dir, (err, files) => {
         if (err) return res.status(500).json( { error : 'Error al leer archivos'})
 
-        const imagenes = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
-        res.json({ imagenes })
+        const archivos = files.filter(f => /\.(jpg|jpeg|png|webp|pdf)$/i.test(f));
+        res.json({ archivos })
     })
 })
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
