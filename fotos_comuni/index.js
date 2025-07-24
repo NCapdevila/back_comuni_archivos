@@ -7,11 +7,28 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-app.use(cors({
-  origin: 'https://comunidauto.net.ar',
+const cors = require('cors');
+
+const whitelist = [
+  'https://comunidauto.net.ar',
+  'https://www.comunidauto.net.ar',
+  'https://front-comuni.vercel.app',
+  'http://localhost:3000', // útil en desarrollo
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type']
-}));
+  allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
