@@ -7,8 +7,13 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: 'https://comunidauto.net.ar',
+  methods: ['GET', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 /// Configuración Multer con almacenamiento dinámico
 
@@ -37,7 +42,12 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({storage});
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 20 * 1024 * 1024
+  }
+});
 
 app.post('/subir-fotos', upload.array('foto', 10), (req, res) =>{
     if (!req.files || req.files.length === 0) {
