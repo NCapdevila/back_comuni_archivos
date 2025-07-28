@@ -12,7 +12,8 @@ const whitelist = [
   'https://comunidauto.net.ar',
   'https://www.comunidauto.net.ar',
   'https://front-comuni.vercel.app',
-  'http://localhost:3000', // útil en desarrollo
+  'http://localhost:3000',
+  'http://localhost:5500'// útil en desarrollo
 ];
 
 const corsOptions = {
