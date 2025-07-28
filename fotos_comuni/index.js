@@ -65,20 +65,13 @@ const upload = multer({
   }
 });
 
-const cpUpload = upload.fields([
-  { name : 'foto', maxCount: 10},
-  { name: 'foto[]', maxCount: 10}
-]) ;
-
-app.post('/subir-fotos', cpUpload, (req, res) =>{
-  const files = req.files['foto'] || req.files['foto[]'] || [];
-
-    if (!files || files.length === 0) {
+app.post('/subir-fotos', upload.array('foto[]', 10), (req, res) =>{
+    if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error : 'Error en la carga'})
     }
     res.json({
         mensaje: 'Carga exitosa',
-        archivos: files.map(f => f.filename)
+        archivos: req.files.map(f => f.filename)
     })
 })
 
