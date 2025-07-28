@@ -65,15 +65,27 @@ const upload = multer({
   }
 });
 
-app.post('/subir-fotos', upload.array('foto', 10), (req, res) =>{
-    if (!req.files || req.files.length === 0) {
-        return res.status(400).json({ error : 'Error en la carga'})
-    }
-    res.json({
-        mensaje: 'Carga exitosa',
-        archivos: req.files.map(f => f.filename)
-    })
-})
+app.post('/subir-fotos', upload.fields([
+  { name: 'foto[0]', maxCount: 1 },
+  { name: 'foto[1]', maxCount: 1 },
+  { name: 'foto[2]', maxCount: 1 },
+  { name: 'foto[3]', maxCount: 1 },
+  { name: 'foto[4]', maxCount: 1 },
+  { name: 'foto[5]', maxCount: 1 },
+  { name: 'foto[6]', maxCount: 1 },
+  { name: 'foto[7]', maxCount: 1 },
+  { name: 'foto[8]', maxCount: 1 },
+]), (req, res) => {
+  if (!req.files) {
+    return res.status(400).json({ error: "No files uploaded" });
+  }
+  const archivos = [];
+  for(let i=0; i<9; i++){
+    const campo = `foto[${i}]`;
+    if(req.files[campo]) archivos.push(req.files[campo][0].filename);
+  }
+  res.json({ mensaje: "Carga exitosa", archivos });
+});
 
 app.get('/carpetas', (req, res) =>{
     const uploadsDir = path.join(__dirname, 'uploads');
