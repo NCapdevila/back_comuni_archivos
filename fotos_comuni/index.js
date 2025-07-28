@@ -65,7 +65,7 @@ const upload = multer({
   }
 });
 
-app.post('/subir-fotos', upload.array('foto[]', 10), (req, res) =>{
+app.post('/subir-fotos', upload.array('foto', 10), (req, res) =>{
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error : 'Error en la carga'})
     }
